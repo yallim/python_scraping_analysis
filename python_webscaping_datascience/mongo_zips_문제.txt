@@ -1,0 +1,50 @@
+//zips.json 데이터를 MongoDB 에 저장하세요
+
+//state 별 인구수의 합계, _id는 출력하지 않고, 출력되는 documet를 10개로 제한한다.
+db.zipes.aggregate( [
+   { $group: { _id: "$state", totalPop: { $sum: "$pop" } } },
+   { $project : { _id : 0, totalPop: 1}},
+   { $limit : 10 }
+] )
+
+//1. SQL: SELECT COUNT(*) AS count FROM zip
+
+//2. SQL: SELECT SUM(pop) as total_pop AS count FROM zip
+
+//3. SQL: SELECT state, SUM(pop) as total_pop FROM zip GROUP BY state
+
+//4. SQL : select city, sum(pop) as total_pop from zip group by city
+
+//5. SQL: SELECT state, SUM(pop) as total_pop FROM zip GROUP BY state ORDER BY as total_pop
+
+//6. # SQL: SELECT COUNT(*) FROM zip WHERE state = 'MA' 
+
+//7. select state,sum(pop) as total_pop from zip where state = 'MA' group by state
+
+//7.1 select state,sum(pop) as total_pop from zip where state in ('DE', 'MS') group by state
+
+//8. SELECT state, SUM(pop) as total_pop FROM zip GROUP BY state HAVING SUM(pop) > 10000000
+
+//9.1000만 이상의 state 별 총 인구를 state_pop 필드명으로 출력하고 _id는 출력하지 않기
+
+//10.1000만 이상의 state만 내림차순 정렬하여 3개만 가져오기
+
+//11.1000만 이상의 state 별 총 인구를 state_pop 필드명으로 출력하고,
+// _id는 출력하지 않으며, 가장 많은 인구를 가진 3개만 출력하기
+
+
+//12. select state, city, sum(pop) as total_pop from zip group by state,city 
+
+//13. select state, city, sum(pop) as total_pop from zip GROUP BY state, city HAVING city = 'POINT BAKER'
+
+//14. SELECT AVG(pop) FROM zip GROUP BY state, city  
+
+//15. select state,city, avg(pop) as avg_pop from zip  GROUP BY state, city  having avg_pop > 30000
+//주별 도시 인구 평균이 30000 이 넘는 곳의  state 와 city 이름만 출력하고 평균을 출력하지 않기 (3개만 출력하기)
+
+{
+   $project : {avg_pop:0}	
+}
+
+
+
